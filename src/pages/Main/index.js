@@ -35,6 +35,24 @@ export default class Main extends Component {
     });
   };
 
+  // carregados os dados do localStorage
+  componentDidMount() {
+    const respositories = localStorage.getItem('repositories');
+
+    if (respositories) {
+      this.setState({ respositories: JSON.parse(respositories) });
+    }
+  }
+
+  // salvar os dados do localStorage
+  componentDidUpdate(_, prevState) {
+    const { respositories } = this.state;
+
+    if (prevState.respositories !== respositories) {
+      localStorage.setItem('repositories', JSON.stringify(respositories));
+    }
+  }
+
   render() {
     const { newRepo, respositories, loading } = this.state;
     return (
@@ -63,8 +81,8 @@ export default class Main extends Component {
         <List>
           {respositories.map(repository => (
             <li key={repository.name}>
-              <spam>{repository.name}</spam>
-              <a href="#">Detalhes</a>
+              <span>{repository.name}</span>
+              <a href="/teste">Detalhes</a>
             </li>
           ))}
         </List>
